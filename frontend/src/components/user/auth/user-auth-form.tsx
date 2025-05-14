@@ -43,13 +43,17 @@ export const UserAuthForm: FC<PropsType> = ({delayedAuthState}) => {
     });
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
+
         setIsLoading(true);
 
         try {
             if (delayedAuthState === "login") {
                 const status = await login(data.email, data.password);
+                console.log(status, "this is the login status")
                 if (status) {
                     navigate("/feed");
+                }else{
+                    toast.error("Invalid email or password.")
                 }
             } else {
                 if ("name" in data) {
